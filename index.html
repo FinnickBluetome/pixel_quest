@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pixel Quest</title>
+
+<style>
+	body {
+		background-color : black;
+	}
+	h1 {
+		display : inline;
+		color : yellow;
+	}
+	h2 {
+		display : inline;
+	}
+	
+	#score {
+		color : yellow;
+	}
+	
+	#time {
+        color : red;
+	}
+</style>
+</head>
+
+<body onload = "createScreen0()">
+<h1>Your health is: </h1>
+<h1 id="score">health</h1>
+ <br/>
+<div id="instruct" style="position: absolute; background-color: black; left: 200px; top: 200px; width: 300px; color: white; display: block; float: left;">  </div>
+<canvas id="myCanvas" width="600" height="600" style="border:0px solid #c3c3c3;">
+</canvas>
+<audio></audio>
+<script>
+    function sound(src) {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+		this.sound.style.display = "none";
+		this.sound.volume = 0.1;
+		this.sound.loop = true;
+        document.body.appendChild(this.sound);
+        this.play = function () {
+            this.sound.play();
+        }
+        this.stop = function () {
+            this.sound.pause();
+        }
+	}
+
+	function getRandomInt(max) {
+  		return Math.floor(Math.random() * Math.floor(max));
+	}
+//	document.getElementById("instruct").style.display = "none";
+	var whichColor = 0;
+	var color = ["green", "orange", "violet", "gold"];
+	var weapon = ["sword",];
+	var weaponDamage = 5;
+	var weaponCooldown = 1;
+	var whichweapon = weapon[0];
+	
+	var tomove = 0;
+
+	var coins = 0;
+	var hasgotten1 = 0;
+	
+	var end = 0; 
+	var bossHealth = 20;
+	var level = 1;
+    var timing = 0;
+	var hasCreate = 0;
+	
+	var display = 0;
+	var what = [
+	  "In a land of peril...",
+	  "A mighty adventurer seeks to bring justice to the land",
+	  "From a demonic group of three (blue) overlords",
+	  "They set out on a quest to kill the overlords.",
+	  "The overlords have a maze to protect them",
+	  "There may be treasure in the maze",
+	  "But by finding the red portals, the hero may find all of the overlords.",
+	  "With their speed (WASD) and their trusty sword (space) they may free the land from peril.",
+	  "As you adventure through the maze you may find new weapons",
+	  "Press 1 to switch weapons (when found).",
+	  "You have found some more clothing, press 2 to switch outfits",
+	  "To move press keys: <br/>- w to go up <br/>- a to go left <br/>- s to go down <br/>- d to go right <br/> <br/>To attack, press spacebar <br> <br/>1 to switch weapons (when found) <br></br> Press c to continue to the game."];
+	var music;
+	var you;
+	var boar;
+	var guylist = [];
+	var canvas = document.getElementById("myCanvas");
+	var ctx = canvas.getContext("2d");
+	
+	function todisplay() {
+		document.getElementById("instruct").innerHTML = what[display];
+		display++
+		if ( display < what.length ){
+		  setTimeout(todisplay, 3000)
+		}
+	}
+	function createScreen0() {
+        //music3 = new sound("Boulevard.m4a");
+		music = new sound("Tell_The_World_Caleb_Etheridge_instrumental_MP3.mp3");
+        //music2 = new sound("Dawn_Awaits_Cody_Martin_instrumental_MP3.mp3");
+        document.getElementById("score").innerHTML = 40;
+		ctx.fillStyle = "#000000";
+		ctx.fillRect(0, 0, 600, 600);
+		todisplay();
+	}
+
+	function nextlevel() {
+		you.drawCharacter("#000000");
+		level = level + 1;
+		ctx.fillStyle = "#000000"
+		ctx.fillRect(0, 0, 600, 600)
+		if (level == 1) {
+			createScreen2();
+		}
+		else if (level == 2) {
+			createScreen3();
+		}
+		else if (level == 3) {
+			createScreen4();
+		}
+		else if (level == 4) {
+			createScreen5();
+		}
+		else if (level == 5) {
+			createScreen6();
+		}
+		else if (level == 6) {
+			createScreen7();
+		}
+		else if (level == 7) {
+			createScreen8();
+		}
+	}	
+	function checkall() {
+		tomove = getRandomInt(2)
+		for(var i = 0; i < guylist.length; i += 1){
+			guylist[i].check(true);
+		}
+		for(var q = 0; q < guylist.length; q += 1){
+			if (guylist[q].good === 0)
+				if (guylist[q].direction === "y") {
+					guylist[q].autoMovey(15, 200, 300);
+				}
+				if (guylist[q].direction === "x") {
+					guylist[q].autoMovex(15, 300, 400);
+				}
+				if (guylist[q].direction === "y1") {
+					 guylist[q].autoMovey(15, 450, 550);
+				}
+				if (guylist[q].direction === "f") {
+					guylist[q].autoMove(5);
+				}
+			if (guylist[q].good === 2) {
+				if (guylist[q].direction === "y") {
+					if (tomove === 0) {
+					guylist[q].autoMovey(15, 200, 300);
+					} else if (tomove === 1) {
+					guylist[q].autoMovey(-15, 200, 300);
+					}
+				}
+			}
+			if (guylist[q].good === 3) {
+				if (guylist[q].direction === "y") {
+					guylist[q].autoMovey(15, 500, 550);
+				}
+			}
+		}
+		
+	};
+	
+	function createScreen() {
+		document.getElementById("instruct").style.display = "none";
+		ctx.fillStyle = "#000000"
+		ctx.fillRect(0, 0, 600, 600);
+		ctx.fillStyle = "#ffffff";
+		ctx.fillRect(5, 20, 100, 25);
+		ctx.fillRect(40, 20, 25, 400);
+		you = new Character(20, 23, 1, color[whichColor], 40);
+		boar = new Character(45, 200, 0, "brown", 10, "y");
+		document.getElementById("score").innerHTML = you.health;
+		guylist.push(you);
+		guylist.push(boar);
+		if (level === 1) {
+			setInterval(checkall, 300);
+			setInterval(you.check, 10, false);
+		}
+		hasCreate = 1;
+	}
+	
+	function createScreen2() {
+		boar.x = 800;
+		boar.x = 800;
+		ctx.fillStyle = "#000000"
+		ctx.fillRect(0, 0, 600, 600);
+		document.getElementById("instruct").style.display = "none";
+		ctx.fillStyle = "#ffffff";
+		ctx.fillRect(5, 20, 100, 25);
+		ctx.fillRect(40, 20, 25, 400);
+		boar = new Character(45, 200, 0, "brown", 10, "y");
+		document.getElementById("score").innerHTML = you.health;
+		guylist.push(boar);
+		you.x = 20;
+		you.y = 23;
+		you.drawCharacter(you.color);
+	}
+
+    function createScreen25() {
+        ctx.fillStyle = "#000000"
+        ctx.fillRect(0, 0, 600, 600);
+        document.getElementById("instruct").style.display = "none";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(5, 20, 100, 25);
+		ctx.fillRect(40, 20, 25, 400);
+        ctx.fillRect(40, 200, 300, 25);
+		boar = new Character(45, 200, 0, "brown", 10, "y");
+        document.getElementById("score").innerHTML = you.health;
+		guylist.push(boar);
+        you.x = 20;
+        you.y = 23;
+        you.drawCharacter(you.color);
+    }
+	
+	function createScreen3() {
+		boar.x = 800;
+		ctx.fillStyle = "#000000"
+		ctx.fillRect(0, 0, 600, 600);
+		ctx.fillStyle = "#ffffff";
+		ctx.fillRect(5, 20, 100, 25);
+		ctx.fillRect(40, 20, 25, 400);
+		boss = new Character(45, 200, 2, "blue", 10, "y");
+		document.getElementById("score").innerHTML = you.health;
+		guylist.push(boss);
+		you.x = 20;
+		you.y = 23;
+		you.drawCharacter(you.color);
+	}
+	
+	function createScreen4() {
+		boar.x = 800;
+		ctx.fillStyle = "#000000"
+		ctx.fillRect(0, 0, 600, 600);
+		ctx.fillStyle = "#ffffff";
+		ctx.fillRect(5, 20, 100, 25);
+		ctx.fillRect(40, 20, 25, 400);
+		bossr = new Character(45, 200, 2, "blue", 10, "y");
+		document.getElementById("score").innerHTML = you.health;
+		guylist.push(bossr);
+		you.x = 20;
+		you.y = 23;
+		you.drawCharacter(you.color);
+	}
+	
+	function createScreen5() {
+		ctx.fillStyle = "#000000"
+		ctx.fillRect(0, 0, 600, 600);
+		ctx.fillStyle = "#ffffff";
+		ctx.fillRect(5, 20, 100, 25);
+		ctx.fillRect(40, 20, 25, 400);
+		ctx.fillRect(65, 20, 25, 400);
+		ctx.fillRect(90, 20, 25, 400);
+		boar2 = new Character(45, 200, 0, "brown", 10, "y");
+		boar3 = new Character(65, 250, 0, "brown", 10, "y");
+		boar4 = new Character(90, 300, 0, "brown", 10, "y");
+		document.getElementById("score").innerHTML = you.health;
+		guylist.push(boar2);
+		guylist.push(boar3);
+		guylist.push(boar4);
+		you.x = 20;
+		you.y = 23;
+		you.drawCharacter(you.color);
+	}
+    function createScreenE() {
+        ctx.fillStyle = "#00FF00"
+		ctx.fillRect(0, 0, 600, 600);
+		level = "E";
+		setTimeout(you.hurt, 1000);
+		setInterval(scorewrite, 100);
+	}
+	function scorewrite() {
+        document.getElementById("score").innerHTML = you.health;
+    }
+	
+	function createScreen6() {
+		show();
+		write("From his unguarded armory you can choose a weapon! For an axe choose purple (it takes about half a second to start up but does double damage). For Spear choose pink (same as sword but takes a second to start up and has longer reach). Or choose broadsword, grey (sword with big startup but does double damage).");
+		setTimeout(hide, 15000);
+		boar2.x = 800;
+		boar3.x = 800;
+		boar4.x = 800;
+		ctx.fillStyle = "#000000"
+		ctx.fillRect(0, 0, 600, 600);
+		ctx.fillStyle = "#ffffff";
+		ctx.fillRect(5, 20, 100, 25);
+		ctx.fillRect(40, 20, 25, 400);
+		ctx.fillRect(65, 20, 25, 400);
+		ctx.fillRect(90, 20, 25, 400);
+		
+		ctx.fillStyle = "#800080";
+		ctx.fillRect(40, 200, 20, 20);
+		
+		ctx.fillStyle = "#760EE3";
+		ctx.fillRect(65, 200, 20, 20);
+
+        ctx.fillStyle = "grey";
+        ctx.fillRect(90, 200, 20, 20);
+				
+		document.getElementById("score").innerHTML = you.health;
+		you.x = 20;
+		you.y = 23;
+		you.drawCharacter(you.color);
+	}
+	
+	function hide() {
+		document.getElementById("instruct").style.display = "none";
+	}
+	function show() {
+		document.getElementById("instruct").style.display = "block";
+	}
+	
+	function write(write) {
+		document.getElementById("instruct").innerHTML = write;
+	}
+
+	function createScreen7() {
+		document.getElementById("instruct").style.display = "block";
+		document.getElementById("instruct").innerHTML = "THE FINAL OVERLORD.................";
+		setTimeout(hide, 3000);
+		ctx.fillStyle = "#000000"
+		ctx.fillRect(0, 0, 600, 600);
+		ctx.fillStyle = "#ffffff";
+		ctx.fillRect(5, 20, 100, 25);
+		ctx.fillRect(40, 20, 25, 400);
+		bossa = new Character(45, 200, 2, "blue", 10, "y");
+		document.getElementById("score").innerHTML = you.health;
+		guylist.push(bossa);
+		you.x = 20;
+		you.y = 23;
+		you.drawCharacter(you.color);
+	}
+
+	function createScreen8() {
+		write("");
+        ctx.fillStyle = "#ffffff"
+		ctx.fillRect(0, 0, 600, 600);
+        ctx.fillStyle = "red"
+        ctx.fillRect(400, 400, 20, 20);
+		boar3 = new Character(100, 340, 0, "brown", 15, "f");
+        boar4 = new Character(200, 20, 0, "brown", 15, "f");
+		boar5 = new Character(400, 30, 0, "brown", 15, "f");
+        boar7 = new Character(200, 300, 0, "brown", 15, "f");
+        document.getElementById("score").innerHTML = you.health;
+		guylist.push(boar3);
+        guylist.push(boar4);
+		guylist.push(boar5);
+		guylist.push(boar7);
+        you.x = 20;
+        you.y = 23;
+        you.drawCharacter(you.color);
+	}
+	function createScreenEND() {
+		show()
+		write("YOU BEAT THE GAME");
+		setTimeout(write, 3000, "Thanks for playing PIXEL QUEST");
+		setTimeout(write, 6000, "CREDITS");
+		setTimeout(write, 10000, "Programmer - Baxter Henderson");
+		setTimeout(write, 15000, "Desginer - Baxter Henderson");
+		setTimeout(write, 20000, "Playtesters - Barron Henderson, Justin Spitzer, Max Spitzer, Owen Henderson");
+        setTimeout(write, 25000, "'Thanks For Playing My Game' - James Halliday");
+        ctx.fillStyle = "#ffffff"
+        ctx.fillRect(0, 0, 600, 600);
+        you.x = 20;
+        you.y = 23;
+        you.drawCharacter(you.color);
+    }
+
+	function death() {
+		location.reload();
+    }
+	class Character {
+		clear() {
+			this.x = 800;
+			this.y = 800;
+		}
+		check(yesno) {
+			if (this.good === 0) {
+				this.touchingSword();
+	    	}
+			if (this.good === 1) {
+				if (yesno) {
+                    this.touchingMonster();
+                }
+				this.drawCharacter(this.color);
+	    	}
+			if (this.good === 2) {
+	    		this.touchingSwordS();
+	    	}
+		}
+		hurt() {
+			setTimeout(death, 3001)
+			scorewrite("0");
+			show()
+			write("You died from gass.");
+			setTimeout(hide, 3000);
+        }
+		pos() {
+			alert(this.x + " " + this.y);
+		}
+		portal() {
+			bossHealth = bossHealth - 10;
+			console.log(bossHealth);
+		}
+		switchOutfit() {
+			whichColor = whichColor + 1;
+			this.color = color[whichColor];
+			this.drawCharacter(this.color);
+			if (whichColor > color.length - 1) {
+				whichColor = 0;
+                this.color = color[whichColor];
+                this.drawCharacter(this.color);
+
+            }
+        }
+		switchWeapon() {
+			if (whichweapon === "sword" && level > 5) {
+				whichweapon = weapon[1];
+				if (weapon[1] === "sword1") {
+					weaponCooldown = 700;
+					weaponDamage = 10;
+				}
+				else {
+					weaponCooldown = 500;
+					if (weapon[1] === "axe") {
+						weaponDamage = 10;
+                    }
+                }
+			}
+			else {
+				whichweapon = weapon[0];
+				weaponDamage = 5;
+				weaponCooldown = 1;
+            }
+        }
+		attack(direction) {
+			if (whichweapon === "sword") {
+				if(direction === "up") {
+					setTimeout(this.drawRect, weaponCooldown, this.x + 5, this.y - 16, 5, 15, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x + 5, this.y - 16, 5, 15, "#ffffff");
+				}
+				if(direction === "down") {
+					setTimeout(this.drawRect, weaponCooldown, this.x + 5, this.y + 16, 5, 15, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x + 5, this.y + 16, 5, 15, "#ffffff");
+				}
+				if(direction === "left") {
+					setTimeout(this.drawRect, weaponCooldown, this.x - 16, this.y + 5, 15, 5, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x - 16, this.y + 5, 15, 5, "#ffffff");
+				}
+				if(direction === "right") {
+					setTimeout(this.drawRect, weaponCooldown, this.x + 16, this.y + 5, 15, 5, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x + 16, this.y + 5, 15, 5, "#ffffff");
+				}
+			}
+            if (whichweapon === "spear") {
+				if(direction === "up") {
+					setTimeout(this.drawRect, weaponCooldown, this.x, this.y - 16, 5, 30, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 200, this.x, this.y - 16, 5, 30, "#ffffff");
+				}
+				if(direction === "down") {
+					setTimeout(this.drawRect, weaponCooldown, this.x, this.y + 16, 5, 30, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 200, this.x, this.y + 16, 5, 30, "#ffffff");
+				}
+				if(direction === "left") {
+					setTimeout(this.drawRect, weaponCooldown, this.x - 16, this.y, 30, 5, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 200, this.x - 16, this.y, 30, 5, "#ffffff");
+				}
+				if(direction === "right") {
+					setTimeout(this.drawRect, weaponCooldown, this.x + 16, this.y, 30, 5, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 200, this.x + 16, this.y, 30, 5, "#ffffff");
+				}
+			}
+            if (whichweapon === "axe") {
+				if(direction === "up") {
+					setTimeout(this.drawRect, weaponCooldown, this.x, this.y - 11, 10, 10, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x, this.y - 16, 10, 10, "#ffffff");
+				}
+				if(direction === "down") {
+					setTimeout(this.drawRect, weaponCooldown, this.x, this.y + 16, 10, 10, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x, this.y + 16, 10, 10, "#ffffff");
+				}
+				if(direction === "left") {
+					setTimeout(this.drawRect, weaponCooldown, this.x - 16, this.y, 10,10, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x - 16, this.y, 10, 10, "#ffffff");
+				}
+				if(direction === "right") {
+					setTimeout(this.drawRect, weaponCooldown, this.x + 16, this.y, 10, 10, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x + 16, this.y, 10, 10, "#ffffff");
+				}
+			}
+            if (whichweapon === "sword1") {
+				if(direction === "up") {
+					setTimeout(this.drawRect, weaponCooldown, this.x, this.y - 16, 10, 20, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x, this.y - 16, 10, 20, "#ffffff");
+				}
+				if(direction === "down") {
+					setTimeout(this.drawRect, weaponCooldown, this.x, this.y + 16, 10, 20, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x, this.y + 16, 10, 20, "#ffffff");
+				}
+				if(direction === "left") {
+					setTimeout(this.drawRect, weaponCooldown, this.x - 16, this.y, 20, 10, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x - 16, this.y, 20, 10, "#ffffff");
+				}
+				if (direction === "right") {
+					setTimeout(this.drawRect, weaponCooldown, this.x + 16, this.y, 20, 10, "#65900E");
+					setTimeout(this.drawRect, weaponCooldown + 400, this.x + 16, this.y, 20, 10, "#ffffff");
+				}
+			}
+		}
+		drawRect(x, y, width, height, color) {
+			ctx.fillStyle = color;
+			ctx.fillRect(x, y, width, height);
+		}
+		drawCharacter(color) { 
+			if(this.good === 1) {			
+				ctx.globalAlpha = 1;
+			}
+			ctx.fillStyle = color;
+			ctx.fillRect(this.x, this.y, 15, 15);
+			}
+	    constructor(x, y, good, color, health, direction) {
+	    	this.health = health;
+	    	this.good = good;
+			this.x = x;
+			this.y = y;
+			this.color = color;
+			this.lastDX = 0;
+			this.lastDY = -5;
+			this.direction = direction;
+			this.drawCharacter(color);
+		}
+        autoMove(D) {
+			if (you.x > this.x) {
+				this.move(15, 0);
+			}
+            if (you.x < this.x) {
+				this.move(-15, 0);
+			}
+            if (you.y > this.y) {
+                this.move(0, 15);
+			}
+            if (you.y < this.y) {
+                this.move(0, -15);
+            }
+        }
+	    autoMovex(DX, min, max) {
+	    	if (!(DX < 1)) {
+				if(this.x < min) {
+					this.move(DX, 0);
+				}
+				else if(this.x > max){
+					this.move(-DX, 0);
+				}
+				else {
+					this.move(this.lastDX, 0);
+				}
+	    	}
+	    }
+	    autoMovey(DY, min, max) {
+	    	if (this.good === 0) {	
+				if (!(DY < 1)) {
+					if(this.y < min) {
+						this.move(0, DY);
+					} else if (this.y > max){
+						this.move(0, -DY);
+					} else {
+						this.move(0, this.lastDY);
+					}
+				}
+			}
+			if (this.good === 2) {
+				this.move(0, DY);
+			}
+	    }
+	    move(dx, dy) {
+	    	this.lastDX = dx;
+	    	this.lastDY = dy;
+	    	
+	    	this.x = this.x + dx;
+	    	this.y = this.y + dy;
+	    	
+	    	if (this.touchingColor(ctx, 0, 0, 0)) {
+	    		this.x = this.x - dx;
+	    		this.y = this.y - dy;
+	    	}
+	    	
+	    	this.drawCharacter(this.color);
+	    	
+	    	this.x = this.x - dx;
+	    	this.y = this.y - dy;
+	    		    	
+	    	this.drawCharacter("white");
+	    	
+	    	this.x = this.x + dx;
+	    	this.y = this.y + dy;
+	    	
+			if (this.touchingColor(ctx, 128, 0, 128)) {
+				alert("This item costs coins. You have " + coins + " coins. This item costs 1 coin.");
+				if (coins > 0) {
+					coins = coins - 1;
+					weapon.push("spear");
+					weaponCooldown = 500;
+                    whichweapon = weapon[1];
+					show();
+					write("You got a spear");
+					setTimeout(hide, 3000);
+					createScreen7();
+					level = 7;
+				}
+				else {
+					alert("You dont have enough coins to buy this item.");
+                    createScreen7();
+                    level = 7;
+                }
+	    	}
+	    	
+	    	if (this.touchingColor(ctx, 118, 14, 227)) {
+                alert("This item costs coins. You have " + coins + " coins. This item costs 1 coin.");
+				if (coins > 0) {
+                    coins = coins - 1;
+                    weapon.push("axe");
+					weaponDamage = 10;
+					weaponCooldown = 500;
+					whichweapon = weapon[1];
+                    show();
+                    write("You got an axe");
+                    setTimeout(hide, 3000);
+                    createScreen7();
+                    level = 7;
+                }
+                else if (coins < 1) {
+                    alert("You dont have any coins. Press ok to continue.");
+                    createScreen7();
+                    level = 7;
+				}
+	    	}
+	    	
+	    	if (this.touchingColor(ctx, 128, 128, 128)) {
+                alert("This item costs coins. You have " + coins + " coins. This item costs 2 coins.");
+				if (coins > 0) {
+					coins = coins - 2;
+                    weapon.push("sword1");
+					weaponDamage = 10;
+					weaponCooldown = 700;
+                    whichweapon = weapon[1];
+					show();
+					write("You got an axe");
+					setTimeout(hide, 3000);
+					createScreen7();
+					level = 7;
+				}
+				else if (coins < 1) {
+					alert("You dont have any coins. Press ok to continue.");
+					createScreen7();
+					level = 7;
+				}
+				else if (coins > 0) {
+					alert("Buy a less costly item!");
+                }
+	    	}
+	    	
+			if (this.good === 1) {
+				if (this.touchingColor(ctx, 255, 255, 0)) {
+					if (hasgotten1 < 1) {
+						coins += 1;
+						hasgotten1 = 1;
+						show()
+						write("You got gold!");
+						setTimeout(hide, 3000);
+					}
+					else if (hasgotten1 > 0 && level == 1) {
+                        show()
+                        setTimeout(write, 1000, "No more gold here :(")
+                        setTimeout(hide, 4000);
+					}
+                    else if (hasgotten1 < 2 && level == 2) {
+                        coins += 1;
+                        hasgotten1 = 2;
+                        show()
+                        write("You got gold!");
+                        setTimeout(hide, 3000);
+					}
+                    else if (hasgotten1 > 1 && level == 2) {
+                        show()
+                        write("No more gold here :(");
+                        setTimeout(hide, 3000);
+					}
+                    else if (hasgotten1 < 3 && level == 25) {
+                        coins += 1;
+                        hasgotten1 = 3;
+                        show()
+                        write("You got gold!");
+                        setTimeout(hide, 3000);
+					}
+                    else if (hasgotten1 > 3 && level == 25) {
+                        show()
+                        write("No more gold here :(");
+                        setTimeout(hide, 3000);
+                    }
+				}
+                if (this.good === 1) {
+					if (this.touchingColor(ctx, 255, 192, 203)) {
+						this.health = 40;
+						console.log(this.health);
+						document.getElementById("score").innerHTML = you.health;
+						show();
+						write("Your health was restored!!!");
+						setTimeout(hide, 3000);
+					}
+				}
+                if (this.good === 1) {
+                    if (this.touchingColor(ctx, 144, 238, 144)) {
+						createScreenE();
+                    }
+                }
+				if (this.touchingColor(ctx, 255, 0, 0)) {
+					if (level === 1) {
+						this.drawCharacter("#000000");
+						level = 2;
+						ctx.fillStyle = "#000000"
+						ctx.fillRect(0, 0, 600, 600)
+						createScreen2();
+					}
+					else if (level === 2) {
+						level = 3;
+						ctx.fillStyle = "#000000"
+						ctx.fillRect(0, 0, 600, 600)
+						createScreen3();
+					}
+					else if (level === 3) {
+						level = 25;
+                        ctx.fillStyle = "#000000"
+                        ctx.fillRect(0, 0, 600, 600)
+                        createScreen25();
+                    }
+					else if (level === 25) {
+						level = 4;
+						ctx.fillStyle = "#000000"
+						ctx.fillRect(0, 0, 600, 600)
+						createScreen4();
+						show();
+						write("THE SECOND ONE...");
+						setTimeout(hide, 3000);
+					}
+                    else if (level === 4) {
+						level = 5;
+                        ctx.fillStyle = "#000000"
+                        ctx.fillRect(0, 0, 600, 600)
+                        createScreen5();
+                    }
+					else if (level === 5) {
+ 						level = 6;
+						ctx.fillStyle = "#000000"
+						ctx.fillRect(0, 0, 600, 600)
+						createScreen6();
+					}
+					else if (level === 7) {
+						level = 8;
+						show();
+						write("The land is safe because of you...");
+						setTimeout(write, 2500, "Watch out for savage boars. They will track you and attack for destroying their overlords.")
+						setTimeout(hide, 5000);
+                        ctx.fillStyle = "#000000"
+						ctx.fillRect(0, 0, 600, 600)
+						createScreen8();
+					}
+					else if (level === 8) {
+                        level = 9;
+                        ctx.fillStyle = "#000000"
+                        ctx.fillRect(0, 0, 600, 600)
+                        createScreenEND();
+                    }
+				}
+				
+				
+				this.drawCharacter(this.color);
+				if (level === 1) {
+					if (this.y > "380" && this.y < "390") {
+						revealScreen(1);
+					} 
+					if (this.x > "380" && this.x < "390") {
+						revealScreen(3);
+					} 
+					if (this.y > "460" && this.y < "480") {
+						revealScreen(2);
+					}
+					if (this.y < "40" && this.x > "300" && this.y > "30") {
+						revealScreen(4);
+					}
+					if (this.x < "320" && this.x > "310" && this.y < "20") {
+						revealScreen(5);
+					}
+					if (this.x > "290" && this.x < "310" && this.y > "100" && this.y < "120") {
+						revealScreen(6);
+					}
+                    if (this.x > "40" && this.x < "50" && this.y > "530" && this.y < "540") {
+                        revealScreen(2.5);
+                    }
+				}
+				if (level === 2) {
+					if (this.y > "380" && this.y < "390") {
+						revealScreen(1);
+					}
+					if (this.y > "460" && this.y < "480") {
+						revealScreen(2);
+					}
+                    if (this.x > "180" && this.x < "190") {
+                        revealScreen(3);
+                    }
+				}
+                if (level === 25) {
+                    if (this.y > "380" && this.y < "390" && this.x < "70") {
+                        revealScreen(1);
+                    }
+                    if (this.x > "300" && this.x < "330") {
+                        revealScreen(2);
+                    }
+                }
+				if (level === 3) {
+					if (this.y > "380" && this.y < "390") {
+						revealScreen(1);
+					}
+					if (this.y > "460" && this.y < "480") {
+						revealScreen(2);
+					}
+				}
+                if (level === 4) {
+                    if (this.y > "380" && this.y < "390") {
+                        revealScreen(1);
+                    }
+                    if (this.y > "460" && this.y < "480") {
+                        revealScreen(2);
+                    }
+                }
+				if (level === 5) {
+					if (this.y > "380" && this.y < "390") {
+						revealScreen(1);
+					}
+				}
+				if (level === 7) {
+					if (this.y > "380" && this.y < "390") {
+						revealScreen(1);
+					}
+				}		
+			}
+		}
+		touchingMonster() {
+			var retval = this.touchingColor(ctx, 165, 42, 42);
+			var bossval = this.touchingColor(ctx, 0, 0, 255);
+			//console.log(retval);
+			if (retval) {
+				this.health = this.health - 5;
+				document.getElementById("score").innerHTML = this.health;
+				if(this.health <= 0) {
+					location.reload();
+					alert("You lose!");
+				}
+			}
+			if (bossval) {
+				this.health = this.health - 10;
+				document.getElementById("score").innerHTML = this.health;
+				if(this.health <= 0) {
+					location.reload();
+					alert("You lose!");
+				}
+			}
+	    }
+		
+		touchingSwordS() {
+			if (end === 0) {
+				var retval2 = this.touchingColor(ctx, 101, 144, 14);
+				if (retval2) {
+					bossHealth -= weaponDamage;
+					console.log(bossHealth);
+					if (bossHealth < 1) {
+						this.drawCharacter("white")
+						end = 1;
+						revealScreen(1);
+						revealScreen(2);
+						show();
+						write("Is that a potion?");
+						setTimeout(hide, 3000);
+						ctx.fillStyle = "pink";
+						ctx.fillRect(this.x, this.y + 20, 15, 15);
+                        this.y = 800;
+					}
+				}
+			}
+			else if (end === 1){
+				var retval3 = this.touchingColor(ctx, 101, 144, 14);
+				if (retval3) {
+					bossHealth -= weaponDamage;
+					console.log(bossHealth);
+					if (bossHealth < -39) {
+						show();
+						write("You found the overlords armory, but guards await you...");
+						setTimeout(hide, 3000);
+						this.drawCharacter("white")
+                        ctx.fillStyle = "pink";
+                        ctx.fillRect(this.x, this.y + 20, 15, 15);
+                        this.y = 800;
+						end = 2;
+					}
+				}
+			}
+			else if (end === 2){
+				var retval4 = this.touchingColor(ctx, 101, 144, 14);
+				if (retval4) {
+					bossHealth -= weaponDamage;
+					console.log(bossHealth);
+					if (bossHealth < -99) {
+						this.drawCharacter("white")
+                        ctx.fillStyle = "pink";
+                        ctx.fillRect(this.x, this.y + 20, 15, 15);
+                        this.y = 800;
+						show();
+						write("That was the final one... ESCAPE NOW");
+						setTimeout(hide, 3000);
+					}
+				}
+			}
+		}
+		
+		touchingColor(ctx,r,g,b){
+			var data = ctx.getImageData(this.x - 1,this.y - 1, 17, 17).data;
+			for(var i = 0; i < data.length; i += 4){
+				if(
+					(data[i+0])==r&&
+					(data[i+1])==g&&
+					(data[i+2])==b
+				){
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		
+		rectLeft() {
+			this.move(-5, 0);
+		} 
+		rectRight() {
+			this.move(5, 0);
+		} 
+		rectUp() {
+			this.move(0, -5);
+		} 
+		rectDown() {
+			this.move(0, 5);
+		}
+		
+		touchingSword() {
+			var retval = this.touchingColor(ctx, 101, 144, 14);
+			if (retval) {
+				this.drawCharacter("white")
+				this.y = 900000;
+			}
+		}
+	}
+	
+	function moveYou(event) {
+		if (event.which == 87) {
+			you.rectUp();
+		}
+		if (event.which == 65) {
+			you.rectLeft();
+		}
+		if (event.which == 83) {
+			you.rectDown();
+		}
+		if (event.which == 68) {
+			you.rectRight();
+		}
+		if (event.which == 32) {
+			if (you.lastDX === -5) {
+				you.attack("left");
+			}
+			if (you.lastDX === 5) {
+				you.attack("right");
+			}
+			if (you.lastDY === -5) {
+				you.attack("up");
+			}
+			if (you.lastDY === 5) {
+				you.attack("down");
+			}
+		}
+		if (event.which == 80) {
+			you.pos();
+		}
+        if (event.which == 48) {
+			you.portal();
+        }
+		if (event.which == 67) {
+			if (hasCreate === 0) {
+				createScreen();
+				hide();
+				write("");
+				music.play();
+			}
+		}
+        if (event.which == 49) {
+			you.switchWeapon();
+			//console.log("sregh");
+		}
+        if (event.which == 50) {
+            you.switchOutfit();
+            //console.log("sregh");
+        }
+	}
+	document.addEventListener("keydown", moveYou);
+	
+	var hasCalled = 0;
+	var hasCalled1 = 0;
+	
+	function revealScreen (number) {
+	
+		if (level === 1) {
+			if (number == 1) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(20, 400, 25, 125);
+				ctx.fillRect(5, 200, 500, 25);
+				if (!(hasCalled === 1)) {
+					boar = new Character(200, 202, 0, "brown", 10, "x");
+					guylist.push(boar);
+					hasCalled = 1;
+				}
+				}
+			else if (number == 2) {
+				ctx.fillStyle = "#ffffff";
+				ctx.fillRect(40, 500, 25, 50);
+			}
+			else if (number == 2.5) {
+                ctx.fillStyle = "yellow";
+                ctx.fillRect(40, 550, 25, 25);
+            }
+			else if (number == 3) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(400, 10, 25, 550);
+                ctx.fillStyle = "#90EE90"
+				ctx.fillRect(400, 550, 25, 25);
+			}
+			else if (number == 4) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(300, 10, 300, 25);
+			}
+			else if (number == 5) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(300, 10, 25, 150);
+			}
+			else if (number == 6) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(250, 140, 100, 25);
+				ctx.fillStyle = "red";
+				ctx.fillRect(260, 144, 20, 20);
+			}
+		}
+		
+		else if (level === 2){
+			if (number === 1) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(20, 400, 25, 125);
+			}
+			if (number === 2) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(40, 500, 25, 50);
+				ctx.fillStyle = "red";
+				ctx.fillRect(42, 520, 20, 20);
+                ctx.fillStyle = "#ffffff"
+                ctx.fillRect(40, 400, 200, 25);
+
+			}
+            if (number === 3) {
+                ctx.fillStyle = "#ffffff"
+				ctx.fillRect(220, 400, 25, 100);
+				ctx.fillStyle = "yellow"
+				ctx.fillRect(220, 500, 25, 25)
+            }
+		}
+		else if (level == 25) {
+			if (number == 1) {
+                ctx.fillStyle = "#ffffff"
+				ctx.fillRect(20, 400, 25, 200);
+                ctx.fillStyle = "red"
+                ctx.fillRect(20, 590, 25, 25);
+				if (!(hasCalled === 2)) {
+					boar1 = new Character(25, 400, 0, "brown", 400, "y1");
+					guylist.push(boar1);
+					hasCalled = 2;
+				}
+
+			}
+            if (number == 2) {
+                ctx.fillStyle = "#ffffff"
+				ctx.fillRect(340, 200, 25, 300);
+				ctx.fillStyle = "yellow"
+				ctx.fillRect(340, 400, 25, 25);
+            }
+        }
+		else if (level === 3){
+			if (number === 1) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(20, 400, 25, 125);
+				ctx.fillStyle = "red"
+				ctx.fillRect(35, 510, 30, 30);
+			}
+		}
+        else if (level === 4) {
+            if (number === 1) {
+                ctx.fillStyle = "#ffffff"
+                ctx.fillRect(20, 400, 25, 125);
+                ctx.fillStyle = "red"
+                ctx.fillRect(35, 510, 30, 30);
+            }
+        }
+		else if (level === 5){
+			if (number === 1) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(20, 400, 25, 125);
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(40, 500, 25, 50);
+				ctx.fillStyle = "red";
+				ctx.fillRect(42, 520, 20, 20);
+			}
+		}
+		else if (level === 7){
+			if (number === 1) {
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(20, 400, 25, 125);
+				ctx.fillStyle = "#ffffff"
+				ctx.fillRect(40, 500, 25, 50);
+				ctx.fillStyle = "red";
+				ctx.fillRect(42, 520, 20, 20);
+				}
+			}
+		}
+	
+	
+</script>
+<br>
+</body>
+</html>
