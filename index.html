@@ -2,17 +2,22 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Pixel Quest</title>
+	<title>PIXEL QUEST</title>
 
 	<style>
 		body {
 			background-color: black;
 		}
 
-		h1 {
-			display: inline;
-			color: yellow;
-		}
+        h1 {
+            display: inline;
+            color: yellow;
+        }
+        p {
+            display: block;
+            color: yellow;
+            float: right;
+        }
 
 		h2 {
 			display: inline;
@@ -29,6 +34,7 @@
 </head>
 
 <body onload="createScreen0()">
+	<p>PIXEL QUEST v2.1.0 </p>
 	<h1>Your health is: </h1>
 	<h1 id="score">health</h1>
 	<br />
@@ -39,8 +45,7 @@
 	<canvas id="myCanvas" width="600" height="600" style="border:0px solid #c3c3c3;">
 	</canvas>
 	<audio></audio>
-	<script>
-		function sound(src) {
+	<script>function sound(src) {
 			this.sound = document.createElement("audio");
 			this.sound.src = src;
 			this.sound.setAttribute("preload", "auto");
@@ -1231,8 +1236,7 @@
 					ctx.fillRect(42, 520, 20, 20);
 				}
 			}
-		}
-	</script>
+		}</script>
 	<br>
 </body>
 </html>
