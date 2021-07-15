@@ -41,7 +41,7 @@
 </head>
 
 <body onload="createScreen0()">
-	<p>PIXEL QUEST v2.1.0 </p>
+	<p>PIXEL QUEST v2.1.1 </p>
 	<h1>Your health is: </h1>
 	<h1 id="score">health</h1>
 	<br />
@@ -49,7 +49,7 @@
 	<h3 id="kills">kills</h3>
 	<br/>
 	<h3>Gold: </h3>
-	<h3 id=" gold">0</h3>
+	<h3 id="gold">0</h3>
 	<div id="instruct" style="position: absolute; background-color: black; left: 200px; top: 200px; width: 300px; color: white; display: block; float: left;">  </div>
 	<canvas id="myCanvas" width="600" height="600" style="border:0px solid #c3c3c3;">
 	</canvas>
@@ -112,7 +112,6 @@
 			"Press 1 to switch weapons (when found).",
 			"You have found some more clothing, press 2 to switch outfits",
 			"To move press keys: <br/>- w to go up <br/>- a to go left <br/>- s to go down <br/>- d to go right <br/> <br/>To attack, press spacebar <br> <br/>1 to switch weapons (when found) <br></br> Press c to continue to the game."];
-		var music;
 		var you;
 		var boar;
 		var guylist = [];
@@ -129,9 +128,6 @@
 			}
 		}
 		function createScreen0() {
-			//music3 = new sound("Boulevard.m4a");
-			music = new sound("Tell_The_World_Caleb_Etheridge_instrumental_MP3.mp3");
-			//music2 = new sound("Dawn_Awaits_Cody_Martin_instrumental_MP3.mp3");
 			document.getElementById("score").innerHTML = 40;
 			ctx.fillStyle = "#000000";
 			ctx.fillRect(0, 0, 600, 600);
@@ -746,7 +742,7 @@
 							hasgotten1 = 1;
 							show()
 							write("You got gold!");
-							document.getElementById("gold").innerHTML = gold;
+							document.getElementById("gold").innerHTML = coins;
 							setTimeout(hide, 3000);
 						}
 						else if (hasgotten1 > 0 && level == 1) {
@@ -759,7 +755,7 @@
 							hasgotten1 = 2;
 							show()
 							write("You got gold!");
-                            document.getElementById("gold").innerHTML = gold;
+                            document.getElementById("gold").innerHTML = coins;
 							setTimeout(hide, 3000);
 						}
 						else if (hasgotten1 > 1 && level == 2) {
@@ -772,7 +768,7 @@
 							hasgotten1 = 3;
 							show()
 							write("You got gold!");
-                            document.getElementById("gold").innerHTML = gold;
+                            document.getElementById("gold").innerHTML = coins;
 							setTimeout(hide, 3000);
 						}
 						else if (hasgotten1 > 3 && level == 25) {
@@ -1115,7 +1111,6 @@
 					createScreen();
 					hide();
 					write("");
-					music.play();
 				}
 			}
 			if (event.which == 49) {
