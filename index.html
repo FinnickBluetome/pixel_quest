@@ -41,7 +41,7 @@
 </head>
 
 <body onload="createScreen0()">
-	<p>PIXEL QUEST v2.1.2 </p>
+	<p>PIXEL QUEST v2.5.2 </p>
 	<h3>Gold: </h3>
 	<h3 id="gold">0</h3>
 	<br/>
@@ -199,7 +199,7 @@
 				}
 				if (guylist[q].good === 1) {
 					//console.log("yeet");
-					if (you.y > "330" && you.y < "380" && you.x > "70" && level == 1) {
+					if (you.y > "330" && you.y < "380" && you.x > "70" && you.x < "80" && level == 1) {
 						show();
 						write("You found my Easter Egg!!! And you also found an experimental weapon called boom, try it out.");
 						setTimeout(hide, 7000);
@@ -231,6 +231,8 @@
 				setInterval(you.check, 10, false);
 			}
 			hasCreate = 1;
+            you.x = 20;
+            you.y = 23;
 		}
 
 		function createScreen2() {
@@ -465,7 +467,7 @@
 				setTimeout(death, 3001)
 				scorewrite("0");
 				show()
-				write("You died from gass.");
+				write("You died from the gas.");
 				setTimeout(hide, 3000);
 			}
 			pos() {
@@ -940,16 +942,179 @@
 					this.health = this.health - 5;
 					document.getElementById("score").innerHTML = this.health;
 					if (this.health <= 0) {
-						location.reload();
 						alert("You lose!");
+                        if (level == 1) {
+                            this.health = 40;
+							createScreen;
+                            you.x = 20;
+							you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 1) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 2) {
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 3) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 4) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 5) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 6) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 7) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 8) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
+                        if (level == 9) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+                            document.getElementById("score").innerHTML = this.health;
+						}
 					}
 				}
 				if (bossval) {
 					this.health = this.health - 10;
 					document.getElementById("score").innerHTML = this.health;
 					if (this.health <= 0) {
-						location.reload();
 						alert("You lose!");
+                        if (level == 3) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
+							if (end == 0) {
+								bossHealth = 20;
+							}
+							else if (end == 1) {
+								bossHealth = 0;
+							}
+                            else if (end == 2) {
+                                bossHealth = -40;
+							}
+                            else if (end == 3) {
+                                bossHealth = -100;
+							}
+                            else if (end == 4) {
+                                bossHealth = 0;
+                            }
+						}
+                        if (level == 5) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
+                            if (end == 0) {
+                                bossHealth = 20;
+                            }
+                            else if (end == 1) {
+                                bossHealth = 0;
+                            }
+                            else if (end == 2) {
+                                bossHealth = -40;
+                            }
+                            else if (end == 3) {
+                                bossHealth = -100;
+                            }
+                            else if (end == 4) {
+                                bossHealth = 0;
+                            }
+						}
+                        if (level == 4) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
+                            if (end == 0) {
+                                bossHealth = 20;
+                            }
+                            else if (end == 1) {
+                                bossHealth = 0;
+                            }
+                            else if (end == 2) {
+                                bossHealth = -40;
+                            }
+                            else if (end == 3) {
+                                bossHealth = -100;
+                            }
+                            else if (end == 4) {
+                                bossHealth = 0;
+                            }
+						}
+                        if (level == 7) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
+                            if (end == 0) {
+                                bossHealth = 20;
+                            }
+                            else if (end == 1) {
+                                bossHealth = 0;
+                            }
+                            else if (end == 2) {
+                                bossHealth = -40;
+                            }
+                            else if (end == 3) {
+                                bossHealth = -100;
+                            }
+                            else if (end == 4) {
+                                bossHealth = 0;
+                            }
+						}
+                        if (level == 9) {
+                            this.health = 40;
+                            you.x = 20;
+                            you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
+                            if (end == 0) {
+                                bossHealth = 20;
+                            }
+                            else if (end == 1) {
+                                bossHealth = 0;
+                            }
+                            else if (end == 2) {
+                                bossHealth = -40;
+                            }
+                            else if (end == 3) {
+                                bossHealth = -100;
+                            }
+                            else if (end == 4) {
+                                bossHealth = 0;
+                            }
+                        }
 					}
 				}
 			}
