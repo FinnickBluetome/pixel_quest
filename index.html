@@ -41,7 +41,7 @@
 </head>
 
 <body onload="createScreen0()">
-	<p>PIXEL QUEST v2.1.1 </p>
+	<p>PIXEL QUEST v2.1.2 </p>
 	<h1>Your health is: </h1>
 	<h1 id="score">health</h1>
 	<br />
@@ -111,6 +111,7 @@
 			"As you adventure through the maze you may find new weapons",
 			"Press 1 to switch weapons (when found).",
 			"You have found some more clothing, press 2 to switch outfits",
+			"But beware for there is some moster the overlords are guarding........take it on at thy own peril"
 			"To move press keys: <br/>- w to go up <br/>- a to go left <br/>- s to go down <br/>- d to go right <br/> <br/>To attack, press spacebar <br> <br/>1 to switch weapons (when found) <br></br> Press c to continue to the game."];
 		var you;
 		var boar;
@@ -674,6 +675,7 @@
 					alert("This item costs coins. You have " + coins + " coins. This item costs 1 coin.");
 					if (coins > 0) {
 						coins = coins - 1;
+                        document.getElementById("gold").innerHTML = coins;
 						weapon.push("spear");
 						weaponCooldown = 500;
 						whichweapon = weapon[1];
@@ -694,6 +696,7 @@
 					alert("This item costs coins. You have " + coins + " coins. This item costs 1 coin.");
 					if (coins > 0) {
 						coins = coins - 1;
+                        document.getElementById("gold").innerHTML = coins;
 						weapon.push("axe");
 						weaponDamage = 10;
 						weaponCooldown = 500;
@@ -715,6 +718,7 @@
 					alert("This item costs coins. You have " + coins + " coins. This item costs 2 coins.");
 					if (coins > 0) {
 						coins = coins - 2;
+                        document.getElementById("gold").innerHTML = coins;
 						weapon.push("sword1");
 						weaponDamage = 10;
 						weaponCooldown = 700;
