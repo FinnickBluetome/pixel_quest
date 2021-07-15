@@ -42,35 +42,34 @@
 
 <body onload="createScreen0()">
 	<p>PIXEL QUEST v2.1.2 </p>
+	<h3>Gold: </h3>
+	<h3 id="gold">0</h3>
+	<br/>
 	<h1>Your health is: </h1>
 	<h1 id="score">health</h1>
 	<br />
 	<h3>Kills: </h3>
 	<h3 id="kills">kills</h3>
-	<br/>
-	<h3>Gold: </h3>
-	<h3 id="gold">0</h3>
+	<br />
 	<div id="instruct" style="position: absolute; background-color: black; left: 200px; top: 200px; width: 300px; color: white; display: block; float: left;">  </div>
 	<canvas id="myCanvas" width="600" height="600" style="border:0px solid #c3c3c3;">
 	</canvas>
-	<audio></audio>
-	<script>
-		function sound(src) {
-			this.sound = document.createElement("audio");
-			this.sound.src = src;
-			this.sound.setAttribute("preload", "auto");
-			this.sound.	setAttribute("controls", "none");
-			this.sound.style.display = "none";
-			this.sound.volume = 0.1;
-			this.sound.loop = true;
-			document.body.appendChild(this.sound);
-			this.play = function () {
-				this.sound.play();
-			}
-			this.stop = function () {
-				this.sound.pause();
-			}
-		}
+	<script>/*function sound(src) {
+					this.sound = document.createElement("audio");
+					this.sound.src = src;
+					this.sound.setAttribute("preload", "auto");
+					this.sound.	setAttribute("controls", "none");
+					this.sound.style.display = "none";
+					this.sound.volume = 0.1;
+					this.sound.loop = true;
+					document.body.appendChild(this.sound);
+					this.play = function () {
+						this.sound.play();
+					}
+					this.stop = function () {
+						this.sound.pause();
+					}
+				}*/
 
 		function getRandomInt(max) {
 			return Math.floor(Math.random() * Math.floor(max));
@@ -111,7 +110,7 @@
 			"As you adventure through the maze you may find new weapons",
 			"Press 1 to switch weapons (when found).",
 			"You have found some more clothing, press 2 to switch outfits",
-			"But beware for there is some moster the overlords are guarding........take it on at thy own peril"
+			"But beware for there is some moster the overlords are guarding........take it on at thy own peril",
 			"To move press keys: <br/>- w to go up <br/>- a to go left <br/>- s to go down <br/>- d to go right <br/> <br/>To attack, press spacebar <br> <br/>1 to switch weapons (when found) <br></br> Press c to continue to the game."];
 		var you;
 		var boar;
@@ -675,7 +674,7 @@
 					alert("This item costs coins. You have " + coins + " coins. This item costs 1 coin.");
 					if (coins > 0) {
 						coins = coins - 1;
-                        document.getElementById("gold").innerHTML = coins;
+						document.getElementById("gold").innerHTML = coins;
 						weapon.push("spear");
 						weaponCooldown = 500;
 						whichweapon = weapon[1];
@@ -696,7 +695,7 @@
 					alert("This item costs coins. You have " + coins + " coins. This item costs 1 coin.");
 					if (coins > 0) {
 						coins = coins - 1;
-                        document.getElementById("gold").innerHTML = coins;
+						document.getElementById("gold").innerHTML = coins;
 						weapon.push("axe");
 						weaponDamage = 10;
 						weaponCooldown = 500;
@@ -718,7 +717,7 @@
 					alert("This item costs coins. You have " + coins + " coins. This item costs 2 coins.");
 					if (coins > 0) {
 						coins = coins - 2;
-                        document.getElementById("gold").innerHTML = coins;
+						document.getElementById("gold").innerHTML = coins;
 						weapon.push("sword1");
 						weaponDamage = 10;
 						weaponCooldown = 700;
@@ -759,7 +758,7 @@
 							hasgotten1 = 2;
 							show()
 							write("You got gold!");
-                            document.getElementById("gold").innerHTML = coins;
+							document.getElementById("gold").innerHTML = coins;
 							setTimeout(hide, 3000);
 						}
 						else if (hasgotten1 > 1 && level == 2) {
@@ -772,7 +771,7 @@
 							hasgotten1 = 3;
 							show()
 							write("You got gold!");
-                            document.getElementById("gold").innerHTML = coins;
+							document.getElementById("gold").innerHTML = coins;
 							setTimeout(hide, 3000);
 						}
 						else if (hasgotten1 > 3 && level == 25) {
@@ -992,7 +991,7 @@
 							this.y = 800;
 							end = 2;
 							kills++;
-                            document.getElementById("kills").innerHtml = kills;
+							document.getElementById("kills").innerHtml = kills;
 						}
 					}
 				}
@@ -1011,7 +1010,7 @@
 							setTimeout(hide, 3000);
 							end = 3;
 							kills++;
-                            document.getElementById("kills").innerHtml = kills;
+							document.getElementById("kills").innerHtml = kills;
 						}
 					}
 				}
