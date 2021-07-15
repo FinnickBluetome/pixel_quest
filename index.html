@@ -22,7 +22,14 @@
 		h2 {
 			display: inline;
 		}
-
+		h3 {
+			display: inline;
+			color: yellow;
+		}
+		h4 {
+			display: inline;
+			color: yellow;
+		}
 		#score {
 			color: yellow;
 		}
@@ -38,18 +45,21 @@
 	<h1>Your health is: </h1>
 	<h1 id="score">health</h1>
 	<br />
-	<h1>  Defeats: </h1>
-	<h1 id="kills">kills</h1>
-	<br />
+	<h3>Kills: </h3>
+	<h3 id="kills">kills</h3>
+	<br/>
+	<h3>Gold: </h3>
+	<h3 id=" gold">0</h3>
 	<div id="instruct" style="position: absolute; background-color: black; left: 200px; top: 200px; width: 300px; color: white; display: block; float: left;">  </div>
 	<canvas id="myCanvas" width="600" height="600" style="border:0px solid #c3c3c3;">
 	</canvas>
 	<audio></audio>
-	<script>function sound(src) {
+	<script>
+		function sound(src) {
 			this.sound = document.createElement("audio");
 			this.sound.src = src;
 			this.sound.setAttribute("preload", "auto");
-			this.sound.setAttribute("controls", "none");
+			this.sound.	setAttribute("controls", "none");
 			this.sound.style.display = "none";
 			this.sound.volume = 0.1;
 			this.sound.loop = true;
@@ -736,6 +746,7 @@
 							hasgotten1 = 1;
 							show()
 							write("You got gold!");
+							document.getElementById("gold").innerHTML = gold;
 							setTimeout(hide, 3000);
 						}
 						else if (hasgotten1 > 0 && level == 1) {
@@ -748,6 +759,7 @@
 							hasgotten1 = 2;
 							show()
 							write("You got gold!");
+                            document.getElementById("gold").innerHTML = gold;
 							setTimeout(hide, 3000);
 						}
 						else if (hasgotten1 > 1 && level == 2) {
@@ -760,6 +772,7 @@
 							hasgotten1 = 3;
 							show()
 							write("You got gold!");
+                            document.getElementById("gold").innerHTML = gold;
 							setTimeout(hide, 3000);
 						}
 						else if (hasgotten1 > 3 && level == 25) {
@@ -960,6 +973,7 @@
 							ctx.fillRect(this.x, this.y + 20, 15, 15);
 							this.y = 800;
 							kills++;
+							document.getElementById("kills").innerHtml = kills;
 						}
 					}
 				}
@@ -978,6 +992,7 @@
 							this.y = 800;
 							end = 2;
 							kills++;
+                            document.getElementById("kills").innerHtml = kills;
 						}
 					}
 				}
@@ -996,6 +1011,7 @@
 							setTimeout(hide, 3000);
 							end = 3;
 							kills++;
+                            document.getElementById("kills").innerHtml = kills;
 						}
 					}
 				}
