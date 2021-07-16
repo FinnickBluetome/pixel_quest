@@ -55,21 +55,21 @@
 	<canvas id="myCanvas" width="600" height="600" style="border:0px solid #c3c3c3;">
 	</canvas>
 	<script>/*function sound(src) {
-							this.sound = document.createElement("audio");
-							this.sound.src = src;
-							this.sound.setAttribute("preload", "auto");
-							this.sound.	setAttribute("controls", "none");
-							this.sound.style.display = "none";
-							this.sound.volume = 0.1;
-							this.sound.loop = true;
-							document.body.appendChild(this.sound);
-							this.play = function () {
-								this.sound.play();
-							}
-							this.stop = function () {
-								this.sound.pause();
-							}
-						}*/
+									this.sound = document.createElement("audio");
+									this.sound.src = src;
+									this.sound.setAttribute("preload", "auto");
+									this.sound.	setAttribute("controls", "none");
+									this.sound.style.display = "none";
+									this.sound.volume = 0.1;
+									this.sound.loop = true;
+									document.body.appendChild(this.sound);
+									this.play = function () {
+										this.sound.play();
+									}
+									this.stop = function () {
+										this.sound.pause();
+									}
+								}*/
 
 		function getRandomInt(max) {
 			return Math.floor(Math.random() * Math.floor(max));
@@ -199,7 +199,7 @@
 				}
 				if (guylist[q].good === 4) {
 					bosse.drawCharacter(bosse.color);
-                }
+				}
 				if (guylist[q].good === 1) {
 					//console.log("yeet");
 					if (you.y > "330" && you.y < "380" && you.x > "70" && you.x < "80" && level == 1) {
@@ -445,16 +445,16 @@
 		}
 
 		function createScreenStart() {
-            ctx.fillStyle = "#ffffff"
-            ctx.fillRect(0, 0, 600, 600);
+			ctx.fillStyle = "#ffffff"
+			ctx.fillRect(0, 0, 600, 600);
 			guylist = []
 			guylist.push(you);
 			guylist.push(bosse);
 			you.drawCharacter(you.color);
 			bosse.drawCharacter(bosse.color);
-            ctx.fillStyle = "red"
-            ctx.fillRect(400, 400, 20, 20);
-        }
+			ctx.fillStyle = "red"
+			ctx.fillRect(400, 400, 20, 20);
+		}
 
 		function death() {
 			location.reload();
@@ -477,9 +477,9 @@
 				if (this.good === 2) {
 					this.touchingSwordS();
 				}
-                if (this.good === 4) {
-                    this.touchingSwordS();
-                }
+				if (this.good === 4) {
+					this.touchingSwordS();
+				}
 			}
 			hurt() {
 				setTimeout(death, 3001)
@@ -960,7 +960,7 @@
 					this.health = this.health - 5;
 					document.getElementById("score").innerHTML = this.health;
 					if (this.health <= 0) {
-						alert("You lose!");
+						alert("You've been knocked out and protaled to the start of the level!");
 						if (level == 1) {
 							this.health = 40;
 							createScreen;
