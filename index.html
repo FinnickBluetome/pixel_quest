@@ -74,7 +74,7 @@
 		function getRandomInt(max) {
 			return Math.floor(Math.random() * Math.floor(max));
 		}
-		//	document.getElementById("instruct").style.display = "none";
+		//document.getElementById("instruct").style.display = "none";
 		var whichColor = 0;
 		var color = ["green", "gold"];
 		var weapon = ["sword",];
@@ -215,6 +215,17 @@
 			}
 
 		};
+
+        function hide() {
+            document.getElementById("instruct").style.display = "none";
+        }
+        function show() {
+            document.getElementById("instruct").style.display = "block";
+        }
+
+        function write(write) {
+            document.getElementById("instruct").innerHTML = write;
+        }
 
 		function createScreen() {
 			document.getElementById("instruct").style.display = "none";
@@ -361,16 +372,6 @@
 			you.drawCharacter(you.color);
 		}
 
-		function hide() {
-			document.getElementById("instruct").style.display = "none";
-		}
-		function show() {
-			document.getElementById("instruct").style.display = "block";
-		}
-
-		function write(write) {
-			document.getElementById("instruct").innerHTML = write;
-		}
 
 		function createScreen7() {
 			document.getElementById("instruct").style.display = "block";
@@ -613,6 +614,14 @@
 				}
 				ctx.fillStyle = color;
 				ctx.fillRect(this.x, this.y, 15, 15);
+				/*if (this.good == 1 && color != "white") {
+                    //ctx.fillStyle = "#00FF00";
+                    ctx.fillStyle = "#b5651d";
+					ctx.fillRect(this.x + 9, this.y + 2, 4, 4)
+					ctx.fillRect(this.x + 2, this.y + 2, 4, 4)
+                    ctx.fillStyle = "#add8e6";
+					ctx.fillRect(this.x + 2, this.y + 10, 11, 2)
+                }*/
 			}
 			constructor(x, y, good, color, health, direction) {
 				this.health = health;
