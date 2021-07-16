@@ -41,12 +41,12 @@
 </head>
 
 <body onload="createScreen0()">
-	<p>PIXEL QUEST v2.5.2 </p>
-	<h3>Gold: </h3>
-	<h3 id="gold">0</h3>
-	<br/>
+	<p>PIXEL QUEST v2.5.3 </p>
 	<h1>Your health is: </h1>
 	<h1 id="score">health</h1>
+	<br />
+	<h3>Gold: </h3>
+	<h3 id="gold">0</h3>
 	<br />
 	<h3>Kills: </h3>
 	<h3 id="kills">kills</h3>
@@ -55,21 +55,21 @@
 	<canvas id="myCanvas" width="600" height="600" style="border:0px solid #c3c3c3;">
 	</canvas>
 	<script>/*function sound(src) {
-					this.sound = document.createElement("audio");
-					this.sound.src = src;
-					this.sound.setAttribute("preload", "auto");
-					this.sound.	setAttribute("controls", "none");
-					this.sound.style.display = "none";
-					this.sound.volume = 0.1;
-					this.sound.loop = true;
-					document.body.appendChild(this.sound);
-					this.play = function () {
-						this.sound.play();
-					}
-					this.stop = function () {
-						this.sound.pause();
-					}
-				}*/
+							this.sound = document.createElement("audio");
+							this.sound.src = src;
+							this.sound.setAttribute("preload", "auto");
+							this.sound.	setAttribute("controls", "none");
+							this.sound.style.display = "none";
+							this.sound.volume = 0.1;
+							this.sound.loop = true;
+							document.body.appendChild(this.sound);
+							this.play = function () {
+								this.sound.play();
+							}
+							this.stop = function () {
+								this.sound.pause();
+							}
+						}*/
 
 		function getRandomInt(max) {
 			return Math.floor(Math.random() * Math.floor(max));
@@ -197,6 +197,9 @@
 						guylist[q].autoMovey(15, 500, 550);
 					}
 				}
+				if (guylist[q].good === 4) {
+					bosse.drawCharacter(bosse.color);
+                }
 				if (guylist[q].good === 1) {
 					//console.log("yeet");
 					if (you.y > "330" && you.y < "380" && you.x > "70" && you.x < "80" && level == 1) {
@@ -231,8 +234,8 @@
 				setInterval(you.check, 10, false);
 			}
 			hasCreate = 1;
-            you.x = 20;
-            you.y = 23;
+			you.x = 20;
+			you.y = 23;
 		}
 
 		function createScreen2() {
@@ -423,7 +426,7 @@
 			you.x = 20;
 			you.y = 23;
 			you.drawCharacter(you.color);
-			setInterval(createGuy, 4000);
+			setInterval(createGuy, 6000);
 		}
 		function createScreenEND() {
 			show()
@@ -440,6 +443,18 @@
 			you.y = 23;
 			you.drawCharacter(you.color);
 		}
+
+		function createScreenStart() {
+            ctx.fillStyle = "#ffffff"
+            ctx.fillRect(0, 0, 600, 600);
+			guylist = []
+			guylist.push(you);
+			guylist.push(bosse);
+			you.drawCharacter(you.color);
+			bosse.drawCharacter(bosse.color);
+            ctx.fillStyle = "red"
+            ctx.fillRect(400, 400, 20, 20);
+        }
 
 		function death() {
 			location.reload();
@@ -462,6 +477,9 @@
 				if (this.good === 2) {
 					this.touchingSwordS();
 				}
+                if (this.good === 4) {
+                    this.touchingSwordS();
+                }
 			}
 			hurt() {
 				setTimeout(death, 3001)
@@ -943,65 +961,66 @@
 					document.getElementById("score").innerHTML = this.health;
 					if (this.health <= 0) {
 						alert("You lose!");
-                        if (level == 1) {
-                            this.health = 40;
+						if (level == 1) {
+							this.health = 40;
 							createScreen;
-                            you.x = 20;
+							you.x = 20;
 							you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 1) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 1) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 2) {
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 2) {
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 3) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 3) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 4) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 4) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 5) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 5) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 6) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 6) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 7) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 7) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 8) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 8) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
 						}
-                        if (level == 9) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
-                            document.getElementById("score").innerHTML = this.health;
+						if (level == 9) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
+							document.getElementById("score").innerHTML = this.health;
+							createScreenStart();
 						}
 					}
 				}
@@ -1010,10 +1029,10 @@
 					document.getElementById("score").innerHTML = this.health;
 					if (this.health <= 0) {
 						alert("You lose!");
-                        if (level == 3) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
+						if (level == 3) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
 							document.getElementById("score").innerHTML = this.health;
 							if (end == 0) {
 								bossHealth = 20;
@@ -1021,100 +1040,100 @@
 							else if (end == 1) {
 								bossHealth = 0;
 							}
-                            else if (end == 2) {
-                                bossHealth = -40;
+							else if (end == 2) {
+								bossHealth = -40;
 							}
-                            else if (end == 3) {
-                                bossHealth = -100;
+							else if (end == 3) {
+								bossHealth = -100;
 							}
-                            else if (end == 4) {
-                                bossHealth = 0;
-                            }
+							else if (end == 4) {
+								bossHealth = 0;
+							}
 						}
-                        if (level == 5) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
+						if (level == 5) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
 							document.getElementById("score").innerHTML = this.health;
-                            if (end == 0) {
-                                bossHealth = 20;
-                            }
-                            else if (end == 1) {
-                                bossHealth = 0;
-                            }
-                            else if (end == 2) {
-                                bossHealth = -40;
-                            }
-                            else if (end == 3) {
-                                bossHealth = -100;
-                            }
-                            else if (end == 4) {
-                                bossHealth = 0;
-                            }
+							if (end == 0) {
+								bossHealth = 20;
+							}
+							else if (end == 1) {
+								bossHealth = 0;
+							}
+							else if (end == 2) {
+								bossHealth = -40;
+							}
+							else if (end == 3) {
+								bossHealth = -100;
+							}
+							else if (end == 4) {
+								bossHealth = 0;
+							}
 						}
-                        if (level == 4) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
+						if (level == 4) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
 							document.getElementById("score").innerHTML = this.health;
-                            if (end == 0) {
-                                bossHealth = 20;
-                            }
-                            else if (end == 1) {
-                                bossHealth = 0;
-                            }
-                            else if (end == 2) {
-                                bossHealth = -40;
-                            }
-                            else if (end == 3) {
-                                bossHealth = -100;
-                            }
-                            else if (end == 4) {
-                                bossHealth = 0;
-                            }
+							if (end == 0) {
+								bossHealth = 20;
+							}
+							else if (end == 1) {
+								bossHealth = 0;
+							}
+							else if (end == 2) {
+								bossHealth = -40;
+							}
+							else if (end == 3) {
+								bossHealth = -100;
+							}
+							else if (end == 4) {
+								bossHealth = 0;
+							}
 						}
-                        if (level == 7) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
+						if (level == 7) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
 							document.getElementById("score").innerHTML = this.health;
-                            if (end == 0) {
-                                bossHealth = 20;
-                            }
-                            else if (end == 1) {
-                                bossHealth = 0;
-                            }
-                            else if (end == 2) {
-                                bossHealth = -40;
-                            }
-                            else if (end == 3) {
-                                bossHealth = -100;
-                            }
-                            else if (end == 4) {
-                                bossHealth = 0;
-                            }
+							if (end == 0) {
+								bossHealth = 20;
+							}
+							else if (end == 1) {
+								bossHealth = 0;
+							}
+							else if (end == 2) {
+								bossHealth = -40;
+							}
+							else if (end == 3) {
+								bossHealth = -100;
+							}
+							else if (end == 4) {
+								bossHealth = 0;
+							}
 						}
-                        if (level == 9) {
-                            this.health = 40;
-                            you.x = 20;
-                            you.y = 23;
+						if (level == 9) {
+							this.health = 40;
+							you.x = 20;
+							you.y = 23;
 							document.getElementById("score").innerHTML = this.health;
-                            if (end == 0) {
-                                bossHealth = 20;
-                            }
-                            else if (end == 1) {
-                                bossHealth = 0;
-                            }
-                            else if (end == 2) {
-                                bossHealth = -40;
-                            }
-                            else if (end == 3) {
-                                bossHealth = -100;
-                            }
-                            else if (end == 4) {
-                                bossHealth = 0;
-                            }
-                        }
+							if (end == 0) {
+								bossHealth = 20;
+							}
+							else if (end == 1) {
+								bossHealth = 0;
+							}
+							else if (end == 2) {
+								bossHealth = -40;
+							}
+							else if (end == 3) {
+								bossHealth = -100;
+							}
+							else if (end == 4) {
+								bossHealth = 0;
+							}
+						}
 					}
 				}
 			}
